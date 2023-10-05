@@ -1,6 +1,6 @@
 import express from "express";
-import data from "./data.js";
 import mongoose from "mongoose";
+import productRouter from "./routers/productRouter.js";
 import userRouter from "./routers/userRouter.js";
 
 const app = express();
@@ -14,21 +14,19 @@ mongoose
     console.log("Database connection error:", error);
   });
 
-app.get("/api/products/:id", (req, res) => {
-  const product = data.products.find(
-    (item) => item._id.toString() === req.params.id
-  );
-  if (product) {
-    res.send(product);
-  } else {
-    res.status(404).send({ message: "Product not found" });
-  }
-});
-app.get("/api/products", (req, res) => {
-  res.send(data.products);
-});
+// app.get("/api/products/:id", (req, res) => {
+//   const product = data.products.find(
+//     (item) => item._id.toString() === req.params.id
+//   );
+//   if (product) {
+//     res.send(product);
+//   } else {
+//     res.status(404).send({ message: "Product not found" });
+//   }
+// });
 
 app.use("/api/users", userRouter);
+app.use("/api/products", productRouter);
 
 app.get("/", (req, res) => {
   res.send("Server is Ready"); // send response to client

@@ -6,6 +6,15 @@ import Order from "../models/orderModel.js";
 import { isAuth } from "../utils/utils.js";
 
 const orderRouter = express.Router();
+// @desc    Get all orders
+orderRouter.get(
+  "/myorder",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const orders = await Order.find({ user: req.user._id });
+    res.send(orders);
+  })
+);
 
 orderRouter.post(
   "/",
